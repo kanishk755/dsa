@@ -56,7 +56,7 @@ void insertathead(node* &head,node* &tail,int data)
       head=newnode;
     
 }
-void insertattail(node *&head,node *tail,int data)
+void insertattail(node* &head,node* &tail,int data)
 {
     if(head==NULL)
       {
@@ -69,6 +69,57 @@ void insertattail(node *&head,node *tail,int data)
         tail->next=newnode;
         tail=newnode;
     
+}
+int findlength(node* &head)
+{
+    int i=0;
+    node* temp=head;
+    while(temp!=NULL)
+    {
+        i++;
+        temp=temp->next;
+    }
+    return i;
+}
+ 
+
+void insertbyposition(int position, node* &head, node* &tail,int data) {
+        if(head == NULL) {
+                node* newNode = new node(data);
+                head = newNode;
+                tail = newNode;
+                return;
+        }
+        //step1: find the position: prev & curr;
+
+        if(position == 0) {
+                insertathead(head, tail , data);
+                return;
+        }
+       
+        int len = findlength(head);
+        
+        if(position > len) {
+                insertattail(head, tail, data);
+                return;
+        }
+        //ste1:find prev and curr
+        int i = 1;
+        node* prev = head;
+        while(i < position) {
+                prev= prev -> next;
+                i++;
+        }
+        node* curr = prev -> next;
+
+        //step2;
+        node* newNode = new node(data);
+
+        //step3:
+        newNode -> next = curr;
+
+        //step4:
+        prev -> next = newNode;
 }
 
 int main() {
@@ -97,14 +148,20 @@ int main() {
     
     
     //inserting if head and tail are null
+    //node *first=new node(200);
     node* head= NULL;
     node* tail=NULL;
      insertathead(head,tail,10);
        insertathead(head,tail,20);
          insertathead(head,tail,30);
            insertathead(head,tail,40);
-             insertattail(head,tail,100);
+         insertattail(head,tail,100);
+          
              print(head);
+             cout<<endl;
+             cout<<"----------inserting at middle--------------"<<endl;
+     insertbyposition(0,head,tail,200);
+            print(head);
            
 	return 0;
 	
